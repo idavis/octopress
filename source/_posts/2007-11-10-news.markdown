@@ -1,0 +1,44 @@
+---
+layout: post
+title: "News"
+date: 2007-11-10 14:49
+comments: true
+categories:
+author: "Ian Davis"
+
+# Github repositories
+github_user: idavis
+github_repo_count: 0
+github_show_profile_link: true
+github_skip_forks: true
+
+# Twitter
+twitter_user: ianfdavis
+twitter_tweet_count: 4
+twitter_show_replies: false
+twitter_follow_button: true
+twitter_show_follower_count: false
+twitter_tweet_button: true
+---
+It has been too long since my last post, for which there are a number of reasons.
+
+1. Super Computing 2007
+2. Vacation Preparation
+3. New Job
+4. Moving
+
+I head to Reno, Nevada early tomorrow morning for [SC07](http://sc07.supercomputing.org/). I have been trying to get my research ready for presentation.  Hopefully this year will be as fun and interesting as last.
+
+The day after I get back from Reno, my girlfriend and I are flying to Aruba for ten days.
+
+There is a lot of preparation when I will essentially be gone for fifteen days. This should be a nice break compared to the bedlam to come.
+
+I resigned.  When I get back from Aruba, I will be working my last week as a Software Developer for NAVTEQ. I will be moving 2529 miles from Philadelphia to Spokane, WA to take the role of Software Quality Assurance Director for PlayXPert.
+
+I will be doing software architecture, software development, developer management, project management, system administration, continuous integration, QA management, and other tasks.
+
+Along with the new job comes moving. I work for one week, during which I need to pack every morning and night ( as I will be gone for the two weeks prior ) which leaves no room for anything. I start Monday, December 3rd.
+
+This come as a stumbling block for my Ensurance project on CodePlex. It is stable, fully featured, and usable, but I will not be able to work on it for a month which really pains me. The only pieces missing are the distribution tasks such as strong naming, finishing internationalization, and such. I was really looking forward to implementing the full set of fluent parameter attributes, but there is a minimal implementation right now.
+
+I will try to post from SC07 with anything that I find.

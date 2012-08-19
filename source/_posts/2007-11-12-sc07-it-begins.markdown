@@ -1,0 +1,30 @@
+---
+layout: post
+title: "SC07: It Begins"
+date: 2007-11-12 14:51
+comments: true
+categories: 
+author: "Ian Davis"
+
+# Github repositories
+github_user: idavis
+github_repo_count: 0
+github_show_profile_link: true
+github_skip_forks: true
+
+# Twitter
+twitter_user: ianfdavis
+twitter_tweet_count: 4
+twitter_show_replies: false
+twitter_follow_button: true
+twitter_show_follower_count: false
+twitter_tweet_button: true
+---
+All around you will find Intel trying to make waves
+{% blockquote %}
+Celebrating the 45nm Launch – 45 steps to Technology Leadership
+{% endblockquote %}
+
+Ok. So they made 45nm, what’s next? With the physical limit a few nm away (from what I understand, 30nm is the limit), what are they going to shock and awe us with next?
+
+Everyone is trying to get the final touches finished on their booths while eagerly awaiting the food coming in just 5 minutes. After an hour of eating, we will have a half hour break before the VIPs get their privileged two hour private run on the show floor. From what I hear, D-Wave is claiming to have the first quantum computer presented here, but we will have to see about that.

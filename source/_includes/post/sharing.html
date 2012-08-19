@@ -1,0 +1,18 @@
+<div class="sharing">
+  {% if site.twitter_tweet_button %}
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="{{ site.url }}{{ page.url }}" data-via="{{ site.twitter_user }}" data-counturl="{{ site.url }}{{ page.url }}" >Tweet</a>
+  {% endif %}
+  {% if site.google_plus_one %}
+  <div class="g-plusone" data-size="{{ site.google_plus_one_size }}"></div>
+  {% endif %}
+  {% if site.facebook_like %}
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  {% endif %}
+  <!-- https://github.com/kevinSuttle/Readability-Octopress-Plugin -->
+  {% if site.readability_basic_buttons %}
+  <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="0" data-show-print="0" data-show-email="0" data-orientation="0" data-version="1"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+  {% endif %}
+  {% if site.readability_all_buttons %}
+  <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="0" data-orientation="0" data-version="1"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+  {% endif %}  
+</div>
