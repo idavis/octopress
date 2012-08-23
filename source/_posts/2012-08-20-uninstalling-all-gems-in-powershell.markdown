@@ -1,65 +1,58 @@
 ---
 layout: post
-title: "Uninstalling All Gems in PowerShell"
+title: "Uninstalling All Gems in PowerShell: The Need for xargs"
 date: 2012-08-20 21:43
 comments: true
-categories: 
+categories: powershell, cli, gems
 ---
-Simple way
-gem list
+While working in Ubuntu, I don't really have a hard time dealing with gems and ruby thanks to rvm. On windows, however, it is another story. Many times I have needed to reset my installed gems by uninstalling them all. Ken Nordquist has a great article on how to [remove all ruby gems][] on linux. Being primarily a windows developer, I do most of my CLI work in PowerShell. 
 
-gem list | %{$_.split(' ')[0]}
+PowerShell has a built-in `xargs` functionality, but it doesn't work with non-powershell commands like rake.
 
-describe -aIx
+``` ps1
+$gems = gem list
 
-gem list | %{$_.split(' ')[0]} | %{gem uninstall -Iax $_ }
+#make a dir for each gem
+$gems | mkdir -path { $_ }
 
-Leaves something to be desired, too many times we have to do %{ xxx yyy $_ }
+#remove each directory we just created
+$gems | rmdir -Include { $_ }
+```
 
-{% codeblock Straigtforward and painful way lang:ps1 %}
-gem list | % { $_ -match "\w+" > $null;$matches[0] } | % { gem uninstall -aIx $_ }
-{% endcodeblock %}
+We pipe the lines from `$gems` into invocations of `mkdir/rmdir`, binding the `path/include` parameter to the `$_` expression on each invocation. You have to use this bulky syntax and it must be bound to parameters. For example, `$gems | mkdir { $_ }`, `$gems | mkdir -path $_`, and `$gems | mkdir $_` will not work. To start, let's look at a simple, straightforward, implementation to remove all gems.
 
-{% codeblock Adding xargs to Powershell with a filter lang:ps1  %}
+``` ps1
+# get a list of our gems in "name (version)" format
+> gem list
+[...]
+jekyll (0.11.2)
+json (1.7.5)
+[...]
+
+# With this list, we can now take the left side splitting on a space character to get the gem names
+# The split call with no parameters will automatically spit on spaces.
+> gem list | % { $_.split()[0] }
+
+# We can then take those gem names as pipeline input into a foreach-object block
+> gem list | % { $_.split()[0] } | % { gem uninstall -aIx $_ }
+```
+
+This leaves something to be desired; too many times in PowerShell we have to do `% { xxx yyy $_ }` instead of `xargs xxx yyy`. This may seem small, but it is very annoying to deal with the additional syntax `% { $_ }`. Adding a (simplified) `xargs` implementation to PowerShell is relatively easy with a filter.
+
+``` ps1
 filter xargs { invoke-expression "$args $_" }
-{% endcodeblock %}
+```
 
-{% codeblock Better, implementing as a function lang:ps1 %}
-function xargs {
-  process {
-    invoke-expression "$args $_"
-  }
-}
-{% endcodeblock %}
+The `xargs` filter passes all parameters into an expression string and concatenates the pipe value. The problem with this approach is that the we are following the paradigm of passing strings through the pipe instead of objects. To use objects in our pipeline, we need to execute the command itself with its arguments and concatenating the pipe object.
 
-{% codeblock Cleaner, but we still have horrible regex work lang:ps1 %}
-gem list | % { $_ -match "\w+" > $null;$matches[0] } | xargs gem uninstall -aIx
-{% endcodeblock %}
+``` ps1
+filter xargs { & $args[0] ($args[1..$args.length] + $_) }
+```
 
-{% codeblock Add a real filter taking the first lang:ps1 %}
-filter Select-FirstWord {
-  process {
-    $_ | Select-FirstMatching "\S+"
-  }
-}
-filter Select-FirstMatching {
-  param($regex)
-  process {  
-    if($_ -match $regex){$matches[0]}
-  }
-}
-{% endcodeblock %}
+Now with a proper `xargs` implementation, we can rewrite the original command using our new `xargs` filter.
 
-{% codeblock Final lang:ps1 %}
-gem list | Select-FirstWord | xargs gem uninstall -aIx
-{% endcodeblock %}
+``` ps1
+gem list | % { $_.split()[0] } | xargs gem uninstall -aIx
+```
 
-{% codeblock  lang:ps1 %}
-gc dirs | mkdir -path {$_}
-{% endcodeblock %}
-
-
-
-Explanation: Pipe the lines from “dirs” into invocations of mkdir, on each invocation bind the “path” parameter to the $_ expression. $_ represents piped string value.
-
-So in effect PS has a built-in “xargs” functionality – only much more powerful, but it doesn't work with non-powershell commands
+ [remove all ruby gems]: http://geekystuff.net/2009/01/14/remove-all-ruby-gems/
