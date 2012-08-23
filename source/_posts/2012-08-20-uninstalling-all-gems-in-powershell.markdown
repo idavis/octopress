@@ -3,7 +3,7 @@ layout: post
 title: "Uninstalling All Gems in PowerShell: The Need for xargs"
 date: 2012-08-20 21:43
 comments: true
-categories: powershell, cli, gems
+categories: [powershell, cli, gems]
 ---
 While working in Ubuntu, I don't really have a hard time dealing with gems and ruby thanks to rvm. On windows, however, it is another story. Many times I have needed to reset my installed gems by uninstalling them all. Ken Nordquist has a great article on how to [remove all ruby gems][] on linux. Being primarily a windows developer, I do most of my CLI work in PowerShell. 
 
