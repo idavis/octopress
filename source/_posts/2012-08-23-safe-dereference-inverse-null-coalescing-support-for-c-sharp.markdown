@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Safe-Dereference / Inverse Null Coalescing Support for C#."
+title: "Safe-Dereference / Inverse Null Coalescing Support for C#"
 date: 2012-08-23 16:59
 comments: true
 categories: [C#, groovy, expressions trees]
