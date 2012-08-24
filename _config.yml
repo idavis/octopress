@@ -2,7 +2,7 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://codepyre.com/
+url: http://codepyre.com
 title: Code Pyre
 subtitle: All Code Dies and Burns in Time
 author: Ian Davis
@@ -106,3 +106,4 @@ readability_all_buttons: true # Read Now, Read Later, Print, Email, Send to Kind
 
 # http://kagekirin.github.com/blog/2012/02/22/playing-with-octopress-custom-asides/
 coderwall_user: idavis
+
