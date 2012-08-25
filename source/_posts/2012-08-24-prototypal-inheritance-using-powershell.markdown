@@ -128,7 +128,10 @@ Say     ScriptMethod System.Object Say();
 
 Following this pattern we can mix in modules, support multiple inheritance, and create reusable objects without having to pull in inline C# via `Add-Type`. This should look a bit like JavaScript ;)
 
+[Part 2][] Prototypal Inheritance Using PowerShell (Part 2): ScriptProperties
+
   [Prototype-based programming]: http://en.wikipedia.org/wiki/Prototype-based_programming
   [Dynamic Language Runtime]: http://en.wikipedia.org/wiki/Dynamic_Language_Runtime
   [dynamic dispatch]: http://en.wikipedia.org/wiki/Dynamic_dispatch
   [Prototye.ps]: https://github.com/idavis/prototype.ps
+  [Part 2]: /2012/08/prototypal-inheritance-using-powershell-part-two-scriptproperties/
