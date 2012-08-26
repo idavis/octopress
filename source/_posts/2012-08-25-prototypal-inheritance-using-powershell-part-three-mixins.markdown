@@ -3,7 +3,7 @@ layout: post
 title: "Prototypal Inheritance Using PowerShell (Part 3): Mixins"
 date: 2012-08-25 18:10
 comments: true
-categories: 
+categories: [powerhell, patterns]
 published: false
 ---
 If you didn't read [Part 1][] and [Part 2][], I would recommend reading them as I build off of their functionality and theory.
