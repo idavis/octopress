@@ -31,7 +31,6 @@ function Get-PrimeFactors {
   $number
 }
 
-
 function Solve-Problem3 {
   Get-PrimeFactors 600851475143 | select -last 1  
 }

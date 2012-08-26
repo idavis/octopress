@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Project Euler: Problem 7 - The Nth Prime"
+title: "Project Euler: Problem 7 in Prototypal PowerShell"
 date: 2012-08-25 17:45
 comments: true
 categories: [powerhell, projecteuler]
@@ -14,16 +14,16 @@ By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that 
 What is the 10 001st prime number?
 {% endblockquote %}
 
-``` ps1 Prototypal
+``` ps1 Solving Using a Prototypal Object
 function New-PrimeGenerator {
   $prototype = New-Prototype
   $prototype | Update-TypeName
   $prototype | Add-Property Primes @(2,3,5)
   $prototype | Add-Property Cache @{2=$true; 3=$true; 4=$false; 5=$true}
-  $prototype | Add-ScriptProperty MaxPrime {$this.Primes | select -last 1}
   $prototype | Add-Property Bound 5
   $prototype | Add-Property BoundIncrement 1000
   $prototype | Add-Property LastExpansionPrimeCount 3
+  $prototype | Add-ScriptProperty MaxPrime {$this.Primes | select -last 1}
   $prototype | Add-Function IsPrime { 
     param($value)
     while ($this.MaxPrime -lt $value) { $this.Expand() }
@@ -55,24 +55,27 @@ function New-PrimeGenerator {
     ($oldBound+1)..$limit | ? { $cache[$_] -eq $null } | % {
       $cache[$_] = $true
       $this.Primes += @($_)
-      for ($i=$this.RoundToNextMultiple($oldBound,$_); $i -le $limit; $i += $_ ) { if(!$cache.ContainsKey($i)) { $cache[$i] = $false } }
+      for ($i=$this.RoundToNextMultiple($oldBound,$_); $i -le $limit; $i += $_ ) {
+        if(!$cache.ContainsKey($i)) { $cache[$i] = $false }
+      }
     }
     $this.LastExpansionPrimeCount = $this.Primes.Length
   }
   $prototype
 }
  
-$generator = New-PrimeGenerator
-(Measure-Command {$generator.FindNthPrime(10001)}).TotalSeconds
-33.1381042s
+function Solve-Problem7 {
+  $generator = New-PrimeGenerator
+  Write-Host "Elapsed Time (s): " (Measure-Command {$generator.FindNthPrime(10001)}).TotalSeconds
+  Write-Host "Elapsed Time (s): " (Measure-Command {$generator.FindNthPrime(10001)}).TotalSeconds
+  Write-Host "Solution: " ($generator.FindNthPrime(10001))
+}
 
-# see the caching in action
-(Measure-Command {$generator.FindNthPrime(10001)}).TotalSeconds
-0.0003987s
+Solve-Problem7
 
-$generator.FindNthPrime(10001)
-# The Answer
-104743
+Elapsed Time (s):  33.1381042
+Elapsed Time (s):   0.0003987
+Solution:  104743
 ```
 
 

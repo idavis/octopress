@@ -14,7 +14,7 @@ What is the smallest positive number that is evenly divisible by all of the numb
 
 The next problem is just folding two values from an array and replacing them with their LCM, then run again and again until only one item is left in the collection (and you now have the LCM of all entries).
 
-``` ps1 What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+``` ps1
 function Get-Gcd {
   param($lhs, $rhs)
   if ($lhs -eq $rhs) { return $rhs }
@@ -43,8 +43,13 @@ function Get-LcmOfGroup {
   else { Get-LcmOfGroup $values }
 }
 
-Get-LcmOfGroup @(1..20)
+function Solve-Problem5 {
+  Get-LcmOfGroup @(1..20)
+}
 
-# The Answer
-232792560
+Write-Host "Elapsed Time (s): " (Measure-Command {Solve-Problem5}).TotalSeconds
+Write-Host "Solution: " (Solve-Problem5)
+
+Elapsed Time (s):  0.0407472
+Solution:  232792560
 ```

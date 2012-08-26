@@ -36,7 +36,8 @@ function Solve-Problem9 {
   Write-Host "The product is $($a*$b*$c)" 
 }
 
-Solve-Problem9
+Write-Host "Elapsed Time (s): " (Measure-Command {Solve-Problem9}).TotalSeconds
 The Pythagorean triplet is a = 200, b = 375, c = 425
 The product is 31875000
+Elapsed Time (s):  0.2247551
 ```
