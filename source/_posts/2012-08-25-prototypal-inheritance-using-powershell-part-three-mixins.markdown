@@ -8,16 +8,16 @@ published: false
 ---
 If you didn't read [Part 1][] and [Part 2][], I would recommend reading them as I build off of their functionality and theory.
 
-Each derivation/extension has the chance to replace override previously declared functionality.
+With mixins, each derivation/extension has the chance to replace override previously declared functionality. Since we aren't dealing with classical inheritance, we can have multiple mixins applied to a single prototypal object.
 
-Because we aren't dealing with classical inheritance, we can have
+I have designed the mixins to operate as filters that return nothing; this choice is simply for syntax reasons. 
 
 ``` ps1
 filter Mixin-Math {
   $_ | Add-Property PI ([Math]::PI) Constant
   $_ | Add-Property E ([Math]::E) Constant
-  $_ | Add-Function Sqrt {param($value)[Math]::Sqrt($value)}
-  $_ | Add-Function Hypotenuse {param($a,$b) $this.Sqrt($a*$a+$b*$b)}
+  $_ | Add-Function Get-Sqrt {param($value)[Math]::Sqrt($value)}
+  $_ | Add-Function Get-Hypotenuse {param($a,$b) $this.Get-Sqrt($a*$a+$b*$b)}
 }
 
 filter Mixin-Circular {
@@ -41,6 +41,9 @@ filter Mixin-Cylindrical {
 }
 ```
 
+The mixins describe groups of functionality that we wish to bestow upon other objects effectively apply a bulk monkey patch. Since we only have the single level of delegation, we replace any functions/properties instead of overriding.
+
+To create a new cylinder, we just need to create the prototype and mix in the cylindrical behavior.
 
 ``` ps1
 function New-Cylinder {
@@ -52,8 +55,9 @@ function New-Cylinder {
 }
 
 $cylinder = New-Cylinder -radius 1 -height 1
+
+# Let's have a look at our new cylinder object:
 $cylinder | Get-Member -View Extended
-$cylinder | fl
 
    TypeName: Prototype#Cylinder
 
@@ -72,6 +76,8 @@ LateralArea   ScriptProperty System.Object LateralArea {get=$this.Circumference 
 LateralHeight ScriptProperty System.Object LateralHeight {get=$this.Height;}
 SurfaceArea   ScriptProperty System.Object SurfaceArea {get=$this.BaseArea + $this.LateralArea;}
 
+# And its values
+$cylinder | fl
 
 PI            : 3.14159265358979
 E             : 2.71828182845905
@@ -85,6 +91,7 @@ SurfaceArea   : 12.5663706143592
 BaseArea      : 6.28318530717959
 ```
 
+We can take an object that has cylindrical properties, but has differently definitions for those properties, and reconstruct them after applying the mixin. In our case, we are going to define a cone.
 
 ``` ps1
 function New-Cone {
@@ -94,15 +101,16 @@ function New-Cone {
   $prototype | Mixin-Cylindrical $radius $height
   # override/replace Calculations
   $prototype | Add-ScriptProperty BaseArea {$this.Radius * $this.Radius * $this.PI}
-  $prototype | Add-ScriptProperty LateralHeight {$this.Hypotenuse($this.Radius, $this.Height)}
+  $prototype | Add-ScriptProperty LateralHeight {$this.Get-Hypotenuse($this.Radius, $this.Height)}
   $prototype | Add-ScriptProperty LateralArea {$this.PI * $this.Radius * $this.LateralHeight}
   $prototype
 }
 
 
 $cone = New-Cone -radius 1 -height 1
+
+# Let's have a look at our new cone object:
 $cone | Get-Member -View Extended
-$cone | fl
 
    TypeName: Prototype#Cone
 
@@ -122,8 +130,8 @@ LateralArea   ScriptProperty System.Object LateralArea {get=$this.Circumference 
 LateralHeight ScriptProperty System.Object LateralHeight {get=$this.Hypotenuse($this.Radius, $this.Height);}
 SurfaceArea   ScriptProperty System.Object SurfaceArea {get=$this.BaseArea + $this.LateralArea;}
 
-
-
+# And its values
+$cone | fl
 
 PI            : 3.14159265358979
 E             : 2.71828182845905

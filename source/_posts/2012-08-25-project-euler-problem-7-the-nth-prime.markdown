@@ -6,6 +6,8 @@ comments: true
 categories: [powerhell, projecteuler]
 published: false
 ---
+This post leverages my OSS project [Prototye.ps][] to support prototypal object creation. If you haven't read the introduction posts [Part 1][] and [Part 2][], I would recommend reading them as I build off of their functionality and theory. If you don't care how it works, read on my friend.
+
 ``` ps1 Prototypal
 function New-PrimeGenerator {
   $prototype = New-Prototype
@@ -57,9 +59,17 @@ function New-PrimeGenerator {
 $generator = New-PrimeGenerator
 (Measure-Command {$generator.FindNthPrime(10001)}).TotalSeconds
 33.1381042s
+
+# see the caching in action
 (Measure-Command {$generator.FindNthPrime(10001)}).TotalSeconds
 0.0003987s
+
 $generator.FindNthPrime(10001)
 # The Answer
 104743
 ```
+
+
+  [Prototye.ps]: https://github.com/idavis/prototype.ps
+  [Part 1]: /2012/08/prototypal-inheritance-using-powershell
+  [Part 2]: /2012/08/prototypal-inheritance-using-powershell-part-two-scriptproperties
