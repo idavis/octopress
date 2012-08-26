@@ -47,7 +47,7 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [custom/asides/badges.html, asides/recent_posts.html, asides/github.html, asides/twitter.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html, custom/asides/coderwall.html]
+default_asides: [custom/asides/badges.html, custom/asides/coderwall.html, asides/recent_posts.html, asides/github.html, asides/twitter.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
@@ -106,4 +106,4 @@ readability_all_buttons: true # Read Now, Read Later, Print, Email, Send to Kind
 
 # http://kagekirin.github.com/blog/2012/02/22/playing-with-octopress-custom-asides/
 coderwall_user: idavis
-
+coderwall_show_endorse_link: true
