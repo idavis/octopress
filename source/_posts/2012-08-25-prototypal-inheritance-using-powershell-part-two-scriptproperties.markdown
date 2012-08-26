@@ -95,4 +95,7 @@ In a script block that defines a script property or script method, the $This var
 
 In the case of our prototype, `$this` refers to the underlying `PSObject` allowing use to use functions, properties, and variables that we have attached and any others that the object provides. 
 
+If you want to read more, [Part 3][] is now available.
+
   [Part 1]: /2012/08/prototypal-inheritance-using-powershell
+  [Part 3]: /2012/08/prototypal-inheritance-using-powershell-part-three-mixins

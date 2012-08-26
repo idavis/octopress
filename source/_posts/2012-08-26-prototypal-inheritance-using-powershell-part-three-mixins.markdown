@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "Prototypal Inheritance Using PowerShell (Part 3): Mixins"
-date: 2012-08-25 18:10
+date: 2012-08-26 09:10
 comments: true
 categories: [powerhell, patterns]
-published: false
 ---
 If you didn't read [Part 1][] and [Part 2][], I would recommend reading them as I build off of their functionality and theory.
 
@@ -145,7 +144,6 @@ Area          : 15.1689511834963
 BaseArea      : 3.14159265358979
 LateralHeight : 1.4142135623731
 ```
-
 
   [Part 1]: /2012/08/prototypal-inheritance-using-powershell
   [Part 2]: /2012/08/prototypal-inheritance-using-powershell-part-two-scriptproperties
