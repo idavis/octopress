@@ -6,8 +6,13 @@ comments: true
 categories: [powerhell, projecteuler]
 published: false
 ---
+{% blockquote Project Euler http://projecteuler.net/problem=4 Problem 4 %}
+A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 99.
 
-``` ps1 Find the largest palindrome made from the product of two 3-digit numbers.
+Find the largest palindrome made from the product of two 3-digit numbers.
+{% endblockquote %}
+
+``` ps1
 (100..999 | % {
   $lhs = $_
   100..999 | % {

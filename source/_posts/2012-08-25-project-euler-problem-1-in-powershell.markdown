@@ -29,8 +29,9 @@ function Solve-Problem1 {
   1..999 | ? {$_ % 5 -eq 0 -or $_ % 3 -eq 0}| % {$sum = 0} {$sum += $_} {$sum}
 }
 
-Solve-Problem1
-233168
-233168
-233168
+Write-Host "Elapsed Time (s): " (Measure-Command {Solve-Problem1}).TotalSeconds
+Write-Host "Solution: " (Solve-Problem1)
+
+Elapsed Time (s):  0.0606135
+Solution:  233168
 ```
