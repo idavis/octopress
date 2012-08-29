@@ -3,7 +3,7 @@ layout: post
 title: "Project Euler: Problem 3 in PowerShell"
 date: 2012-08-25 20:00:58
 comments: true
-categories: [powerhell, projecteuler]
+categories: [powershell, projecteuler]
 published: false
 ---
 {% blockquote Project Euler http://projecteuler.net/problem=3 Problem 3 %}
