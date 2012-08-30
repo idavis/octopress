@@ -9,9 +9,9 @@ If you didn't read [Part 1][] and [Part 2][], I would recommend reading them as 
 
 In the previous articles I built a simple platform and API to help create PopwerShell objects mimicking prototypal inheritance. Each object created with the [Prototype.ps][] API is essentially classless but instead has a loose specification and the actual 'class' of the object is held in its underlying `PSObject.TypeNames` member. We can leverage these type names while we are extending the underlying object to create proxy properties.
 
-Why proxy properties? When adding a static property, we have a small problem. Due to the lack of control that we have for dispatching, we can't control how missing methods are handled, and thus we must define any methods that we want to be able to call. This also means that it does not make sense to attach static properties outside of the object definition as we cannot delegate the calls dynamically. 
+Why proxy properties? When adding a static property, we have a small problem. Due to the lack of control that we have for dispatching, we can't control how missing methods are handled, and thus we must define any methods that we want to be able to call. This also means that it does not make sense to attach static properties after object creation (outside of the object definition) as we cannot delegate the calls dynamically (any existing references would be missing the proxy property).
 
-The Common Language Infrastructure (CLI) defines the Common Type System (CTS) which lays the groundwork for how the type system in .NET works. In the CTS definition, the runtime holds a single instance of a `Type` (e.g., there is one instance of the `Console` `Type`); by mimicking this model, we can instantiate a shared 'class' on which we can attach 'static' behavior and properties. Then, we can attach a proxy property on the instances which will call into this single instance.
+The Common Language Infrastructure (CLI) defines the Common Type System (CTS) which lays the groundwork for how the type system in .NET works. In the CTS definition, the runtime holds a single instance of a `Type` (e.g., there is one instance of the `Console` `Type` which should not be confused with an instances of the `Console` `class`); by mimicking this model, we can instantiate a shared 'type' object on which we can attach 'static' behavior and properties. Then, we can attach a proxy property on the instances which will call into this single instance.
 
 The first step is to add a line to both the `New-Prototype` and `Update-TypeName` which will create the static instance if it doesn't exist.
 
@@ -68,9 +68,11 @@ function Add-StaticInstance {
 }
 ```
 
-We now have an instance which is shared across our PowerShell session which is created the first time we instantiate our objects.
+We now have an instance which is shared across our PowerShell session thiat is created the first time we instantiate our objects.
 
-To implement `Add-StaticProperty`, I attach the desired property to the shared instance, and add a proxy `ScriptProperty` which calls into the registry, finds the instance that maps to our 'class' and accesses the property needed. There is a small catch. The `TypeName` is only known during the call to `Add-StaticProperty` and PowerShell doesn't support closures, so we can't capture the `TypeName` at this moment in a `ScriptBlock`. Instead, the `ScriptBlock` must be created from a string and the `TypeName` is captured via string interpolation. At the same time, we cannot let the rest of the proxy `ScriptBlock`s' values be interpolated (this leads to some syntactic messiness).
+To implement `Add-StaticProperty`, I attach the desired property to the shared instance, and add a proxy `ScriptProperty` which calls into the registry, finds the instance that maps to our 'type' and accesses the property needed. As always, there is a small catch.
+
+The `TypeName` is only known during the call to `Add-StaticProperty` and PowerShell doesn't support closures, so we can't capture the `TypeName` at this moment in a `ScriptBlock`. Instead, the `ScriptBlock` must be created from a string and the `TypeName` is captured via string interpolation. At the same time, we cannot let the rest of the proxy `ScriptBlock`s' values be interpolated (this leads to some syntactic messiness).
 
 ``` ps1
 function Add-StaticProperty {
@@ -93,7 +95,7 @@ function Add-StaticProperty {
 }
 ```
 
-Borrowing the example from [Part 1][], I am making the `Message` static so that it can be modified and used by separate instances.
+Enough background, let's look at an example. Borrowing the example from [Part 1][], I am making the `Message` static so that it can be modified and used by separate instances.
 
 ```
 function New-SapiVoice {
