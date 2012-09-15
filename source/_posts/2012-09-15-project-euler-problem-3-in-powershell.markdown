@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "Project Euler: Problem 3 in PowerShell"
-date: 2012-08-25 20:00:58
+date: 2012-09-15 20:00:00
 comments: true
 categories: [powershell, projecteuler]
-published: false
 ---
 {% blockquote Project Euler http://projecteuler.net/problem=3 Problem 3 %}
 The prime factors of 13195 are 5, 7, 13 and 29.
@@ -21,8 +20,8 @@ function Get-PrimeFactors {
      2
      $number /= 2
   }
-
-  for($i = 3; $i -le [Math]::Sqrt($number); $i += 2) {
+  $bound = [Math]::Sqrt($number)
+  for($i = 3; $i -le $bound; $i += 2) {
      while($number % $i -eq 0) {
         $number /= $i
         $i

@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "Project Euler: Problem 1 in PowerShell"
-date: 2012-08-25 20:00:58
+date: 2012-09-15 04:00:00
 comments: true
 categories: [powershell, projecteuler]
-published: false
 ---
 
 {% blockquote Project Euler http://projecteuler.net/problem=1 Problem 1 %}
