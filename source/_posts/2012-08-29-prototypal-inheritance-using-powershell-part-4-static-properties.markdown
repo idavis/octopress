@@ -7,7 +7,7 @@ categories: [powershell, patterns]
 ---
 If you didn't read [Part 1][] and [Part 2][], I would recommend reading them as I build off of their functionality and theory.
 
-In the previous articles I built a simple platform and API to help create PopwerShell objects mimicking prototypal inheritance. Each object created with the [Prototype.ps][] API is essentially classless but instead has a loose specification and the actual 'class' of the object is held in its underlying `PSObject.TypeNames` member. We can leverage these type names while we are extending the underlying object to create proxy properties.
+In the previous articles I built a simple platform and API to help create PowerShell objects mimicking prototypal inheritance. Each object created with the [Prototype.ps][] API is essentially classless but instead has a loose specification and the actual 'class' of the object is held in its underlying `PSObject.TypeNames` member. We can leverage these type names while we are extending the underlying object to create proxy properties.
 
 Why proxy properties? When adding a static property, we have a small problem. Due to the lack of control that we have for dispatching, we can't control how missing methods are handled, and thus we must define any methods that we want to be able to call. This also means that it does not make sense to attach static properties after object creation (outside of the object definition) as we cannot delegate the calls dynamically (any existing references would be missing the proxy property).
 
