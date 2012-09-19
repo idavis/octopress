@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
 require 'digest/md5'
 
 GRAPHVIZ_DIR = File.expand_path('../../source/images/graphviz', __FILE__)
@@ -44,8 +43,8 @@ module Jekyll
         local_png = File.join(GRAPHVIZ_DIR, "g-#{Digest::MD5.hexdigest(code)}.png")
         web_png = "/images/graphviz/g-#{Digest::MD5.hexdigest(code)}.png"
 
-        unless File.exist?(local_svg)
-          puts local_svg
+        unless File.exist?(local_png)
+          puts local_png
           puts code
           IO.popen("dot -Tpng -o #{local_png}", 'r+') do |pipe|
             pipe.puts(code)

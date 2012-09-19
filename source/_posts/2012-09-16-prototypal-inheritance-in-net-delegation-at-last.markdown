@@ -3,8 +3,7 @@ layout: post
 title: "Prototypal Inheritance in .NET: Delegation at Last"
 date: 2012-09-16 17:19
 comments: true
-categories: 
-published: false
+categories: [dynamic, c#, dlr]
 ---
 In .NET 4.0, we have access to the [Dynamic Language Runtime (DLR)][] giving us [dynamic dispatch][] via the [IDynamicMetaObjectProvider][] interface coupled with the [dynamic][] keyword. When a variable is declared as ```dynamic``` and it implements the ```IDynamicMetaObjectProvider``` interface, we are given the opportunity to control the delegation of all calls on that object by returning a ```DynamicMetaObject``` containing an expression which will be evaluated by the runtime.
 
@@ -42,10 +41,6 @@ public class DelegatingPrototype : DynamicObject, IPrototypalMetaObjectProvider 
 
 This small amount of code just sets the hook. Now we need set up the delegation expression. 
 
-{% blockquote L. Peter Deutsch, %}
-To iterate is human, to recurse divine
-{% endblockquote %}
-
 To set up the prototypal hierarchy, we are going to need to do a lot of recursion. Unfortunately, it is well hidden (I'll explain shortly). When a call is made on the root object, we are given the expression being interpreted. Using the ```IDynamicMetaObjectProvider``` overload, we will hand off the expression to the ```PrototypalMetaObject``` to construct delegation expression (or the ```DynamicObject``` implementation if our prototype is ```null``` thus trying to interpret the expression on the current object). We want to make a preorder traversal of the prototype hierarchy; at each step, the current object's evaluation will take precedence over its prototype tree. Consider the following prototypal class hierarchy:
 
 {% graphviz %}
@@ -72,9 +67,13 @@ digraph G {
 
 Since we never know which level of the hierarchy will be handling the expression, we need to build an expression for the entire tree every time. We want to get the ```DynamicMetaObject``` representing the current object's tree first. Once done, we get the  ```DynamicMetaObject``` for evaluating the expression on the current instance. With these two, we can create a new  ```DynamicMetaObject``` which try to bind the expression to the current instance first, and then fallback to the prototype. At the root level, the prototype ```DynamicMetaObject``` contains the same fallback for the next two layers.
 
-```Square fallback => Quadrilateral fallback => Polygon```
-
 There is another caveat that we need to address. When we try to invoke and expression on an object, the expression is bound to that type. When accessing the prototype, if we don't do anything, the system will throw a binding exception because the matching object won't match the ```DynamicMetaObject```'s type restrictions. To fix this, we need to relax the type restrictions for each prototype.
+
+{% blockquote L. Peter Deutsch, Paraphrased %}
+To iterate is human, to recurse is divine, to inception recurse is demented
+{% endblockquote %}
+
+Remember the recursion I mentions earlier? In the code sample below, I have pulled out all code except for the get/set member and invoke member methods. The ```_metaObject.Bind[...]``` will actually call into ```DelegatingPrototype::GetMetaObject``` which will try to call back into ```_metaObject.Bind[...]```, which will, well, you get the idea. At each call, the prototype becomes the target and we get a new prototype.
 
 ``` csharp
 public class PrototypalMetaObject : DynamicMetaObject {
@@ -120,22 +119,21 @@ public class PrototypalMetaObject : DynamicMetaObject {
     protected bool AreEquivalent( Type lhs, Type rhs ) {
         return lhs == rhs || lhs.IsEquivalentTo( rhs );
     }
-//...
+
     public override DynamicMetaObject BindGetMember( GetMemberBinder binder ) {
         DynamicMetaObject errorSuggestion = AddTypeRestrictions( _metaObject.BindGetMember( binder ) );
         return binder.FallbackGetMember( _baseMetaObject, errorSuggestion );
     }
-//...
+
     public override DynamicMetaObject BindInvokeMember( InvokeMemberBinder binder, DynamicMetaObject[] args ) {
         DynamicMetaObject errorSuggestion = AddTypeRestrictions( _metaObject.BindInvokeMember( binder, args ) );
         return binder.FallbackInvokeMember( _baseMetaObject, args, errorSuggestion );
     }
-//...
+
     public override DynamicMetaObject BindSetMember( SetMemberBinder binder, DynamicMetaObject value ) {
         DynamicMetaObject errorSuggestion = AddTypeRestrictions( _metaObject.BindSetMember( binder, value ) );
         return binder.FallbackSetMember( _baseMetaObject, value, errorSuggestion );
     }
-//...
 }
 ```
 
