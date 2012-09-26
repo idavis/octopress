@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Prototypal Inheritance Using PowerShell (Part 5): Method Missing"
-date: 2012-09-15 16:19
+date: 2012-10-05 16:19
 comments: true
-categories: 
+categories: [powershell, dlr, patterns]
 ---
 If you didn't read [Part 1][] and [Part 2][], I would recommend reading them as I build off of their functionality and theory.
 
@@ -133,6 +133,6 @@ function Import-PrototypalObject {
 
 We now have a very simple version of method missing for PowerShell and C#. The next post discusses true prototypal inheritance for C# and as a side effect, PowerShell.
 
-[Part 1]: /2012/08/prototypal-inheritance-using-powershell
-[Part 2]: /2012/08/prototypal-inheritance-using-powershell-part-two-scriptproperties
+  [Part 1]: /2012/08/prototypal-inheritance-using-powershell
+  [Part 2]: /2012/08/prototypal-inheritance-using-powershell-part-two-scriptproperties
 

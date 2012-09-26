@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Prototypal Inheritance in .NET: Delegation at Last"
-date: 2012-09-16 17:19
+date: 2012-10-08 17:19
 comments: true
 categories: [dynamic, c#, dlr]
 ---
@@ -12,15 +12,8 @@ The ```DynamicObject``` and ```ExpandoObject``` classes both implement ```IDynam
 A key thing to consider is that we don't want to replicate classical inheritance; instead, we are going to focus on prototypal inheritance that mostly replicates JavaScript's prototypal inheritance. Rather than trying to replicate all of the hard work that the DRL team put into writing their implementation, we can add our own implementation on top of theirs. It is simple to hook in, but we need to save off a method to access the base ```DynamicMetaObject``` implementation. This will allow us to attempt to interpret the expression on the object itself or pass it along.
 
 ``` csharp
-public interface IPrototypalMetaObjectProvider : IDynamicMetaObjectProvider {
-    object Prototype { get; }
-    DynamicMetaObject GetBaseMetaObject( Expression parameter );
-}
-
-public class DelegatingPrototype : DynamicObject, IPrototypalMetaObjectProvider {
-    public DelegatingPrototype() : this( null ) { }
-
-    public DelegatingPrototype( object prototype ) {
+public class DelegatingPrototype : DynamicObject {
+    public DelegatingPrototype( object prototype = null ) {
         Prototype = prototype;
     }
 
@@ -73,16 +66,16 @@ There is another caveat that we need to address. When we try to invoke and expre
 To iterate is human, to recurse is divine, to inception recurse is demented
 {% endblockquote %}
 
-Remember the recursion I mentions earlier? In the code sample below, I have pulled out all code except for the get/set member and invoke member methods. The ```_metaObject.Bind[...]``` will actually call into ```DelegatingPrototype::GetMetaObject``` which will try to call back into ```_metaObject.Bind[...]```, which will, well, you get the idea. At each call, the prototype becomes the target and we get a new prototype.
+Remember the recursion I mentions earlier? In the code sample below, I have pulled out all binding code except for the ```BindInvokeMember``` method. The ```_metaObject.Bind[...]``` will actually call into ```DelegatingPrototype::GetMetaObject``` which will try to call back into ```_metaObject.Bind[...]```, which will...well you get the idea. At each call, the prototype becomes the target and we get a new prototype.
 
 ``` csharp
 public class PrototypalMetaObject : DynamicMetaObject {
     private readonly DynamicMetaObject _baseMetaObject;
     private readonly DynamicMetaObject _metaObject;
-    private readonly IPrototypalMetaObjectProvider _prototypalObject;
+    private readonly DelegatingPrototype _prototypalObject;
     private readonly object _prototype;
 
-    public PrototypalMetaObject( Expression expression, IPrototypalMetaObjectProvider value, object prototype )
+    public PrototypalMetaObject( Expression expression, DelegatingPrototype value, object prototype )
             : base( expression, BindingRestrictions.Empty, value ) {
         _prototypalObject = value;
         _prototype = prototype;
@@ -90,26 +83,14 @@ public class PrototypalMetaObject : DynamicMetaObject {
         _baseMetaObject = CreateBaseMetaObject();
     }
 
-    protected virtual DynamicMetaObject AddTypeRestrictions( DynamicMetaObject result ) {
-        BindingRestrictions typeRestrictions = GetTypeRestriction().Merge( result.Restrictions );
-        return new DynamicMetaObject( result.Expression, typeRestrictions, _metaObject.Value );
+    protected virtual DynamicMetaObject CreateBaseMetaObject() {
+        return _prototypalObject.GetBaseMetaObject( Expression );
     }
-
+	
     protected virtual DynamicMetaObject CreatePrototypeMetaObject() {
         Expression castExpression = GetLimitedSelf();
         MemberExpression memberExpression = Expression.Property( castExpression, "Prototype" );
         return Create( _prototype, memberExpression );
-    }
-
-    protected virtual BindingRestrictions GetTypeRestriction() {
-        if ( Value == null && HasValue ) {
-            return BindingRestrictions.GetInstanceRestriction( Expression, null );
-        }
-        return BindingRestrictions.GetTypeRestriction( Expression, LimitType );
-    }
-
-    protected virtual DynamicMetaObject CreateBaseMetaObject() {
-        return _prototypalObject.GetBaseMetaObject( Expression );
     }
 
     protected Expression GetLimitedSelf() {
@@ -119,31 +100,33 @@ public class PrototypalMetaObject : DynamicMetaObject {
     protected bool AreEquivalent( Type lhs, Type rhs ) {
         return lhs == rhs || lhs.IsEquivalentTo( rhs );
     }
-
-    public override DynamicMetaObject BindGetMember( GetMemberBinder binder ) {
-        DynamicMetaObject errorSuggestion = AddTypeRestrictions( _metaObject.BindGetMember( binder ) );
-        return binder.FallbackGetMember( _baseMetaObject, errorSuggestion );
+		
+    protected virtual BindingRestrictions GetTypeRestriction() {
+        if ( Value == null && HasValue ) {
+            return BindingRestrictions.GetInstanceRestriction( Expression, null );
+        }
+        return BindingRestrictions.GetTypeRestriction( Expression, LimitType );
     }
 
+    protected virtual DynamicMetaObject AddTypeRestrictions( DynamicMetaObject result ) {
+        BindingRestrictions typeRestrictions = GetTypeRestriction().Merge( result.Restrictions );
+        return new DynamicMetaObject( result.Expression, typeRestrictions, _metaObject.Value );
+    }
+	
     public override DynamicMetaObject BindInvokeMember( InvokeMemberBinder binder, DynamicMetaObject[] args ) {
         DynamicMetaObject errorSuggestion = AddTypeRestrictions( _metaObject.BindInvokeMember( binder, args ) );
         return binder.FallbackInvokeMember( _baseMetaObject, args, errorSuggestion );
     }
-
-    public override DynamicMetaObject BindSetMember( SetMemberBinder binder, DynamicMetaObject value ) {
-        DynamicMetaObject errorSuggestion = AddTypeRestrictions( _metaObject.BindSetMember( binder, value ) );
-        return binder.FallbackSetMember( _baseMetaObject, value, errorSuggestion );
-    }
 }
 ```
 
-You may be thinking, ok, this is cool, but what use it is it? What is the use case? Primarily, it is fun. Secondly, it sets the foundation for .NET [mixins][].
+You may be thinking, ok, this is cool, but what use it is it? What is the use case? First, it's cool. Second, it sets the foundation for .NET [mixins][]. Third, it gives us a second form of inheritence (after parasitic).
 
 If you want to see more or play around with the code, you can find full implementations in the [Archetype][] project.
 
-[Dynamic Language Runtime (DLR)]: http://en.wikipedia.org/wiki/Dynamic_Language_Runtime
-[dynamic dispatch]: http://en.wikipedia.org/wiki/Dynamic_dispatch
-[IDynamicMetaObjectProvider]: http://msdn.microsoft.com/en-us/library/system.dynamic.idynamicmetaobjectprovider(v=vs.100).aspx
-[dynamic]: http://msdn.microsoft.com/en-us/library/dd264741(v=vs.100).aspx
-[mixins]: http://en.wikipedia.org/wiki/Mixin
-[Archetype]: https://github.com/idavis/Archetype
+  [Dynamic Language Runtime (DLR)]: http://en.wikipedia.org/wiki/Dynamic_Language_Runtime
+  [dynamic dispatch]: http://en.wikipedia.org/wiki/Dynamic_dispatch
+  [IDynamicMetaObjectProvider]: http://msdn.microsoft.com/en-us/library/system.dynamic.idynamicmetaobjectprovider(v=vs.100).aspx
+  [dynamic]: http://msdn.microsoft.com/en-us/library/dd264741(v=vs.100).aspx
+  [mixins]: http://en.wikipedia.org/wiki/Mixin
+  [Archetype]: https://github.com/idavis/Archetype

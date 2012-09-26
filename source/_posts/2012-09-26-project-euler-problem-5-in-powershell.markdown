@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "Project Euler: Problem 5 in PowerShell"
-date: 2012-08-25 20:00:58
+date: 2012-09-26 20:00:58
 comments: true
 categories: [powershell, projecteuler]
-published: false
 ---
 {% blockquote Project Euler http://projecteuler.net/problem=5 Problem 5 %}
 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
@@ -34,7 +33,6 @@ function Get-Lcm {
 
 function Get-LcmOfGroup {
   param([int[]]$values)
-  if($values.Length -lt 2) { return -1 }
   $lhs = $values[0]
   $rhs = $values[1]
   $lcm = Get-Lcm $lhs $rhs

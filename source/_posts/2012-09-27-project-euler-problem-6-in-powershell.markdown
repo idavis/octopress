@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "Project Euler: Problem 6 in PowerShell"
-date: 2012-08-25 20:00:58
+date: 2012-09-27 20:00:58
 comments: true
 categories: [powershell, projecteuler]
-published: false
 ---
 {% blockquote Project Euler http://projecteuler.net/problem=6 Problem 6 %}
 The sum of the squares of the first ten natural numbers is,

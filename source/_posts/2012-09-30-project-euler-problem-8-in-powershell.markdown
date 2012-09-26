@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "Project Euler: Problem 8 in PowerShell"
-date: 2012-08-25 18:51
+date: 2012-09-30 18:51
 comments: true
 categories: [powershell, projecteuler]
-published: false
 ---
 {% blockquote Project Euler http://projecteuler.net/problem=8 Problem 8 %}
 Find the greatest product of five consecutive digits in the 1000-digit number.

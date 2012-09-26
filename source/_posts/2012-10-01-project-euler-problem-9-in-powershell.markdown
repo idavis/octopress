@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "Project Euler: Problem 9 in PowerShell"
-date: 2012-08-25 20:15
+date: 2012-10-01 20:15
 comments: true
 categories: [powershell, projecteuler]
-published: false
 ---
 {% blockquote Project Euler http://projecteuler.net/problem=9 Problem 9 %}
 A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,

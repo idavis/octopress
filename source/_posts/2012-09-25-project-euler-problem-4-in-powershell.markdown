@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "Project Euler: Problem 4 in PowerShell"
-date: 2012-08-25 20:00:58
+date: 2012-09-25 20:00:58
 comments: true
 categories: [powershell, projecteuler]
-published: false
 ---
 {% blockquote Project Euler http://projecteuler.net/problem=4 Problem 4 %}
 A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91*99.
