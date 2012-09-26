@@ -5,7 +5,7 @@ date: 2012-10-08 17:19
 comments: true
 categories: [dynamic, c#, dlr]
 ---
-In .NET 4.0, we have access to the [Dynamic Language Runtime (DLR)][] giving us [dynamic dispatch][] via the [IDynamicMetaObjectProvider][] interface coupled with the [dynamic][] keyword. When a variable is declared as ```dynamic``` and it implements the ```IDynamicMetaObjectProvider``` interface, we are given the opportunity to control the delegation of all calls on that object by returning a ```DynamicMetaObject``` containing an expression which will be evaluated by the runtime.
+In .NET 4.0, we have access to the [Dynamic Language Runtime (DLR)][] giving us [dynamic dispatch][] via the [IDynamicMetaObjectProvider][] interface coupled with the [dynamic][] keyword. When a variable is declared as ```dynamic``` and it implements the ```IDynamicMetaObjectProvider``` interface, we are given the opportunity to control the delegation of calls on that object by returning a ```DynamicMetaObject``` containing an expression which will be evaluated by the runtime. We only get this opportunity if the direct target was unable to directly handle the expression.
 
 The ```DynamicObject``` and ```ExpandoObject``` classes both implement ```IDynamicMetaObjectProvider```, but their implementations are explicitly implemented and the nested classes used to return the ```DynamicMetaObject``` are private and sealed. I understand that the classes may not have been tested enough to make them inheritable, but not having access to these classes really hurts our ability to easily modify the behavior of the underlying ```DynamicMetaObject```. The key word here is easily; implementing the needed expression building is a great deal of work and the internal workings of the Microsoft implementations leverage many internal framework calls.
 
@@ -120,7 +120,9 @@ public class PrototypalMetaObject : DynamicMetaObject {
 }
 ```
 
-You may be thinking, ok, this is cool, but what use it is it? What is the use case? First, it's cool. Second, it sets the foundation for .NET [mixins][]. Third, it gives us a second form of inheritence (after parasitic).
+You may be thinking, ok, this is cool, but what use it is it? What is the use case? First, it's cool. Second, it sets the foundation for .NET [mixins][]. Third, it gives us a second form of inheritance (after parasitic) for PowerShell. 
+
+What if we take the prototype and make it a collection of prototypes? What if instead of inheriting from ```DelegatingPrototype``` we reuse the internal prototypal skeleton? If this sounds familiar, it should. I am describing ruby classes with modules and a base class, but with C#...
 
 If you want to see more or play around with the code, you can find full implementations in the [Archetype][] project.
 

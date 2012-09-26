@@ -40,5 +40,5 @@ Elapsed Time (s):  1999.6739304
 Solution:  142913828922
 ```
 
-  [Problem 7]: /2012/08/project-euler-problem-7-in-parasitic-powershell
-  [Prototye.ps]: https://github.com/idavis/prototype.ps
+  [Problem 7]: /2012/09/project-euler-problem-7-in-parasitic-powershell/
+  [Prototype.ps]: https://github.com/idavis/prototype.ps
