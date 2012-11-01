@@ -17,7 +17,7 @@ basketball and tennis.
 
 **[StackOverflow Resume][]**
 
-**Master Code Ninja**,
+**Code Dude**,
 IntelliTect *December 2009 to Present*
 
 **Owner**,

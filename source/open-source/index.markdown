@@ -5,6 +5,12 @@ sharing: true
 footer: true
 ---
 <p>Open Source Software (OSS) is a valuable asset in doing business. OSS allows developers to produce software faster with higher quality utilizing components from a number of projects. I strongly believe in this process and actively contribute to a number of projects:</p>
+<p><a href="https://github.com/idavis/archetype">Archetype</a></p>
+<p>Archetype adds support for non-classical inheritance to .NET (e.g. Prototypal inheritance)</p>
+<p><a href="https://github.com/idavis/prototype.ps">Prototype.ps</a></p>
+<p>PowerShell DSL for creating rich PowerShell objects using parasitic inheritance, class simulation, and prototypal inheritance.</p>
+<p><a href="https://github.com/Ang3lFir3/Chewie">Chewie</a></p>
+<p>Chewie is a PowerShell DSL creating a Bundler like tool built on top of NuGet.</p>
 <p><a href="https://github.com/IntelliTect/PowerStudio">PowerStudio</a></p>
 <p>PowerStudio is a PowerShell language integration for Visual Studio 2010. It provides syntax highlighting, IntelliSense, custom projects, and more.</p>
 <p><a href="https://github.com/idavis/toji">Toji</a></p>
