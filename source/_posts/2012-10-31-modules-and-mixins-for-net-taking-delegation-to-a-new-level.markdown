@@ -3,9 +3,9 @@ layout: post
 title: "Modules and Mixins for .NET: Taking Delegation to a New Level"
 date: 2012-10-31 20:58
 comments: true
-categories: [dynamic, c#, dlr]
+categories: [dynamic, c#, dlr, expressiontrees]
 ---
-In the last article on [prototypal inheritance][], I showed how to construct a delegation chain and simulate JavaScript's prototypal inheritance for .NET languages. If you haven't looked at that post, I highly recommend reading it through as I am going to skip over a lot of the theory I covered previously. Today I am taking delegation in .NET a step further. If you aren't familiar with mixins and ruby modules, I would also recommend looking into them as what I am showing here is directly inspired by them.
+In the last article on [prototypal inheritance][] using [Archetype][], I showed how to construct a delegation chain and simulate JavaScript's prototypal inheritance for .NET languages. If you haven't looked at that post, I highly recommend reading it through as I am going to skip over a lot of the theory I covered previously. Today I am taking delegation in .NET a step further. If you aren't familiar with mixins and ruby modules, I would also recommend looking into them as what I am showing here is directly inspired by them.
 
 When looking at prototypal inheritance for .NET, we had a very simple delegation chain. With module support we need to ammend how we evaluate and interpret expressions being called on our objects. Does the current object support the operation? Can it respond? If not, we need to loop through the prototypes (modules/mixins) that have been attached to this instance; however, as with most things in life, there is a catch. We need to process them last to first and at each level we need to start the evaluation all over again. Why last first?
 
@@ -359,4 +359,5 @@ Another simple pattern you can apply is adding an ```ExpandoObject``` to the beg
 If you find this interesting or have ideas for other modules, I'd love to hear about them.
 
   [prototypal inheritance]: /2012/10/prototypal-inheritance-in-net-delegation-at-last/
+  [Archetype]: https://github.com/idavis/Archetype
   [sample implementation]: https://github.com/idavis/Archetype/blob/2add5d68bef178f6a76e75124dbff948474bfefe/src/Archetype/Sandbox/PrototypalObject.cs
