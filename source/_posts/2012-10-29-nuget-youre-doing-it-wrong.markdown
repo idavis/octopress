@@ -219,8 +219,8 @@ Will I stop using NuGet? No. Will I be happy using it? No. Will I stop complaini
 
   [extolling some of its virtues]: http://visualstudiomagazine.com/articles/2011/04/20/wcoss_nuget-package-manager.aspx
   [rspec gemspec]: https://github.com/rspec/rspec/blob/master/rspec.gemspec
-  [Albacore gemspec]: https://github.com/derickbailey/Albacore/blob/master/albacore.gemspec
-  [Albacore Gemfile]: https://github.com/derickbailey/Albacore/blob/master/Gemfile 
+  [Albacore gemspec]: https://github.com/Albacore/albacore/blob/master/albacore.gemspec
+  [Albacore Gemfile]: https://github.com/Albacore/albacore/blob/master/Gemfile
   [Jewler]: https://github.com/technicalpickles/jeweler
   [Giles rakefile]: https://github.com/codereflection/Giles/blob/master/rakefile.rb
   [Nu website]: http://nu.wikispot.org/Current_Packages
