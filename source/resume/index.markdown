@@ -17,16 +17,30 @@ basketball and tennis.
 
 **[StackOverflow Resume][]**
 
-**Code Dude**,
-IntelliTect *December 2009 to Present*
+**[Microsoft C# MVP][]**, *April 2012 to Present*
+
+**Code Dude**, IntelliTect *December 2009 to Present*
+
+-   Implemented smart grid systems integration for public utility demonstration project.
+-   Implemented continuous integrations systems.
+-   Designed and implemented .NET API for LINQ to ESRI ArcObjects (COM, Oracle).
+-   Created web services providing meter read data to customer web portal.
+-   Integrated AMR metering systems propagating updates from the system of record to each external system.
+-   Performed multi-tier service benchmarking, bottleneck isolation, and implemented performance fixes.
+-   Implemented ETL process handling up to 500GB daily.
+-   Optimized build processes for application groups.
+-   Created tooling for metering specialists to monitor substation equipment in real time.
+-   Performed code reviews.
+-   Paired with client developers to implement features and train team members.
 
 **Owner**,
 Innovatian Software *October 2009 to Present*
+-   Software consulting to help software shops optimize their development processes.
 
 **Columnist**,
 [Open Source .NET][], Visual Studio Magazine *April 2011 to May 2012*
 
-**Opensource contributor and advocate.**
+**Open source contributor and advocate.**
 *2005 to Present*
 
 See the [Projects][] pages for information on my various project work.
@@ -110,6 +124,7 @@ See the [Projects][] pages for information on my various project work.
 -   Designed a process to simulate a cluster of nodes for the testing of
     parallel applications
 
+	This page can be [viewed as as a document][] and saved as a PDF.
 
   [web site]: http://sug.dotnetprogramming.com
   [GitHub Resume]: http://resume.github.com/?idavis
@@ -117,4 +132,5 @@ See the [Projects][] pages for information on my various project work.
   [Open Source .NET]: http://visualstudiomagazine.com/Articles/List/Open-Source-NET.aspx
   [Projects]: ../open-source/
   [PLAYXPERT]: http://www.playxpert.com/
-
+  [viewed as as a document]: https://docs.google.com/document/d/1pP0AwnoZjx1axlgRgTkDccLl4INLUJkiySyaRLc-24M/edit
+  [Microsoft C# MVP]: https://mvp.support.microsoft.com/profile=FAB68289-F5E7-44E6-BA47-24C65368B478
